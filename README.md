@@ -54,22 +54,22 @@ Reproduce both tables with `python -m bsgreeks`.
 ## The model
 
 Under the risk-neutral measure the stock follows
-$dS_t = r S_t\,dt + \sigma S_t\,dW_t$. For a European option with strike $K$ and
+$dS_t = r S_t dt + \sigma S_t dW_t$. For a European option with strike $K$ and
 maturity $T$,
 
 $$
-d_1 = \frac{\ln(S/K) + (r + \sigma^2/2)\,T}{\sigma\sqrt{T}}, \qquad d_2 = d_1 - \sigma\sqrt{T}
+d_1 = \frac{\ln(S/K) + (r + \sigma^2/2) T}{\sigma\sqrt{T}}, \qquad d_2 = d_1 - \sigma\sqrt{T}
 $$
 
 $$
-c = S\,N(d_1) - K e^{-rT} N(d_2), \qquad p = K e^{-rT} N(-d_2) - S\,N(-d_1)
+c = S N(d_1) - K e^{-rT} N(d_2), \qquad p = K e^{-rT} N(-d_2) - S N(-d_1)
 $$
 
 | Greek | call | put |
 |---|---|---|
 | delta, $\partial V/\partial S$ | $N(d_1)$ | $N(d_1) - 1$ |
 | gamma, $\partial^2 V/\partial S^2$ | $\varphi(d_1) / (S\sigma\sqrt{T})$ | same |
-| vega, $\partial V/\partial\sigma$ | $S\,\varphi(d_1)\sqrt{T}$ | same |
+| vega, $\partial V/\partial\sigma$ | $S \varphi(d_1)\sqrt{T}$ | same |
 | theta, $-\partial V/\partial T$ | $-\frac{S\varphi(d_1)\sigma}{2\sqrt{T}} - rKe^{-rT}N(d_2)$ | $-\frac{S\varphi(d_1)\sigma}{2\sqrt{T}} + rKe^{-rT}N(-d_2)$ |
 | rho, $\partial V/\partial r$ | $KTe^{-rT}N(d_2)$ | $-KTe^{-rT}N(-d_2)$ |
 
@@ -101,7 +101,7 @@ maturities from five weeks to five years, zero and negative rates):
 
 **3. Monte Carlo against the closed form.** The simulation draws GBM paths with
 the exact log-normal step
-$S_{t+\Delta t} = S_t \exp((r - \sigma^2/2)\Delta t + \sigma\sqrt{\Delta t}\,Z)$,
+$S_{t+\Delta t} = S_t \exp((r - \sigma^2/2)\Delta t + \sigma\sqrt{\Delta t} Z)$,
 so the number of steps adds no discretisation bias and the only error is sampling
 error. It never calls the normal CDF or $d_1$. Greeks come from the same draws:
 pathwise derivatives for delta, vega, theta and rho, and the likelihood-ratio
